@@ -3,6 +3,8 @@ properties([pipelineTriggers([pollSCM('H/2 * * * *')])])
 
 node {
     stage('Preparation') {
+        // Check out the repo, so Jenkins knows which commit was built (needed for Poll SCM)
+        checkout scm
         catchError(buildResult: 'SUCCESS') {
             sh 'docker stop samplerunning'
             sh 'docker rm samplerunning'
