@@ -21,7 +21,8 @@ node {
         sshagent(['dmz010-deploy']) {
             // Trust the host key of dmz010
             sh 'mkdir -p ~/.ssh && ssh-keyscan 192.0.2.10 >> ~/.ssh/known_hosts'
-            withEnv(['DOCKER_HOST=ssh://jenkins@192.0.2.10']) {
+            // SAMPLEAPP_PUBLISH: only listen on localhost, nginx is the reverse proxy
+            withEnv(['DOCKER_HOST=ssh://jenkins@192.0.2.10', 'SAMPLEAPP_PUBLISH=127.0.0.1:5050']) {
                 sh 'docker rm -f samplerunning || true'
                 sh 'rm -rf tempdir'
                 sh 'bash sample-app.sh'
