@@ -22,5 +22,5 @@ _EOF_
 cd tempdir || exit
 docker build -t sampleapp .
 # Publish address of the container: 5050 (all interfaces) by default, 127.0.0.1:5050 on production
-docker run -t -d -p "${SAMPLEAPP_PUBLISH:-5050}:5050" --name samplerunning sampleapp
+docker run -t -d --restart unless-stopped -p "${SAMPLEAPP_PUBLISH:-5050}:5050" --name samplerunning sampleapp
 docker ps -a 
